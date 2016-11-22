@@ -55,6 +55,34 @@ public void countRows(){
         }
     }
 
+    @Override
+    public boolean isCellEditable(int row, int col){
+        if (col == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void setValueAt(Object newDouble, int row, int column){
+        double newTime;
+        try {
+            newTime = Double.parseDouble(newDouble.toString());
+        } catch (Exception ex) {
+            System.out.println(ex);
+            return;
+        }
+
+        try {
+            rs.absolute(row +1);
+            rs.updateDouble("cube_time", newTime);
+            rs.updateRow();
+            fireTableDataChanged();
+        } catch (SQLException sqlex){
+            System.out.println(sqlex);
+        }
+    }
     public void addRow (String cuber, double cubeTime){
         try{
             rs.moveToInsertRow();
@@ -85,4 +113,6 @@ public void countRows(){
         countRows();
 
     }
+
+
 }
